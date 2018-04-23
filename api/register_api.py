@@ -10,5 +10,5 @@ class RegisterApi(BaseApi):
     url = '/home/register'
 
     def build_custom_param(self, data):
-        return {'login_name': data['login_name'], 'code': data['code'], 'password': settings.PUBLIC_PASSWORD,
+        return {'login_name': data['login_name'], 'code': data['code'], 'password': data['password'],
                 'nickname': data['nickname'], 'channel_id': 1}

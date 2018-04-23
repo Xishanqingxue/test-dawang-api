@@ -16,7 +16,7 @@ class TestChannelBanner(BaseCase):
         """
         channel_banner_api = ChannelBanner()
         response = channel_banner_api.get({"type":1})
-        self.assertEqual(channel_banner_api.get_resp_code(),0)
+        self.assertEqual(channel_banner_api.get_code(),0)
 
         banner_list = json.loads(response.content)['result']['banner_list']
         self.assertEqual(banner_list['id'],u'0000000001')
@@ -42,7 +42,7 @@ class TestChannelBanner(BaseCase):
         """
         channel_banner_api = ChannelBanner()
         response = channel_banner_api.get({"type": 2})
-        self.assertEqual(channel_banner_api.get_resp_code(), 0)
+        self.assertEqual(channel_banner_api.get_code(), 0)
 
         banner_list = json.loads(response.content)['result']['banner_list']
         self.assertEqual(banner_list['id'], u'0000000002')
@@ -68,7 +68,7 @@ class TestChannelBanner(BaseCase):
         """
         channel_banner_api = ChannelBanner()
         response = channel_banner_api.get({"type": 3})
-        self.assertEqual(channel_banner_api.get_resp_code(), 0)
+        self.assertEqual(channel_banner_api.get_code(), 0)
 
         banner_list = json.loads(response.content)['result']['banner_list']
         self.assertEqual(banner_list['id'], u'0000000003')
@@ -86,3 +86,13 @@ class TestChannelBanner(BaseCase):
         # 比较banner_content数组内字典是否相等
         for x in range(len(banner_content)):
             self.assertEqual(banner_content[x], mysql_banner_content[x])
+
+    def test_channel_banner_type_null(self):
+        """
+        测试请求接口导航ID为空
+        :return:
+        """
+        channel_banner_api = ChannelBanner()
+        channel_banner_api.get({"type":None})
+        self.assertEqual(channel_banner_api.get_code(),422140)
+        self.assertEqual(channel_banner_api.get_response_message(),u'导航id不能为空!')

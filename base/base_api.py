@@ -72,7 +72,8 @@ class BaseApi(object):
         """
         request_data = self.format_param(data)
         s = requests.session()
-        s.cookies.set('identity',request_data['identity'])
+        if request_data['identity']:
+            s.cookies.set('identity',request_data['identity'])
         self.response = s.get(url=self.api_url(), params=request_data, headers=self.headers)
         logger.info('Headers:{0}'.format(self.response.request.headers))
         logger.info('Response:{0}'.format(self.response.text))
@@ -100,7 +101,7 @@ class BaseApi(object):
         if self.response:
             return self.response.status_code
 
-    def get_resp_code(self):
+    def get_code(self):
         """
         获取回参中状态码
         :return:
@@ -108,7 +109,7 @@ class BaseApi(object):
         if self.response:
             return json.loads(self.response.text)['code']
 
-    def get_resp_message(self):
+    def get_response_message(self):
         """
         获取回参中消息
         :return:

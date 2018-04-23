@@ -18,7 +18,7 @@ class TestLoginApi(BaseCase):
         login_api = LoginApi()
         response = login_api.login(login_name=self.login_name,only_get_identity=False)
 
-        self.assertEqual(login_api.get_resp_code(),0)
+        self.assertEqual(login_api.get_code(),0)
         identity = json.loads(response.content)['result']['identity_obj']
         self.assertEqual(identity['login_name'],self.login_name)
         # self.assertEqual(identity['mobilephone'],self.login_name)
@@ -32,8 +32,8 @@ class TestLoginApi(BaseCase):
         """
         login_api = LoginApi()
         login_api.login(login_name=None, only_get_identity=False)
-        self.assertEqual(login_api.get_resp_code(), 422101)
-        self.assertEqual(login_api.get_resp_message(),u'登录账号名不能为空')
+        self.assertEqual(login_api.get_code(), 422101)
+        self.assertEqual(login_api.get_response_message(),u'登录账号名不能为空')
 
     def test_login_name_error(self):
         """
@@ -42,8 +42,8 @@ class TestLoginApi(BaseCase):
         """
         login_api = LoginApi()
         login_api.login(login_name='13501077766', only_get_identity=False)
-        self.assertEqual(login_api.get_resp_code(), 422109)
-        self.assertEqual(login_api.get_resp_message(),u'登录账号不存在')
+        self.assertEqual(login_api.get_code(), 422109)
+        self.assertEqual(login_api.get_response_message(),u'登录账号不存在')
 
     def test_login_password_null(self):
         """
@@ -52,8 +52,8 @@ class TestLoginApi(BaseCase):
         """
         login_api = LoginApi()
         login_api.login(login_name=self.login_name,password=None, only_get_identity=False)
-        self.assertEqual(login_api.get_resp_code(), 422102)
-        self.assertEqual(login_api.get_resp_message(),u'密码不能为空')
+        self.assertEqual(login_api.get_code(), 422102)
+        self.assertEqual(login_api.get_response_message(),u'密码不能为空')
 
     def test_login_password_error(self):
         """
@@ -62,5 +62,5 @@ class TestLoginApi(BaseCase):
         """
         login_api = LoginApi()
         login_api.login(login_name=self.login_name, password='123456', only_get_identity=False)
-        self.assertEqual(login_api.get_resp_code(), 422110)
-        self.assertEqual(login_api.get_resp_message(), u'密码错误')
+        self.assertEqual(login_api.get_code(), 422110)
+        self.assertEqual(login_api.get_response_message(), u'密码错误')
